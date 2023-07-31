@@ -2,6 +2,5 @@ services:
 
   RateLimit1:
     path: AWSLambda-RateLimit1
- 
   RateLimit2:
     path: AWSLambda-RateLimit2  
