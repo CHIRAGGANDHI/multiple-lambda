@@ -9,6 +9,7 @@ provider:
   timeout: 6
   memorySize: 128
   stage: dev
+  versionFunctions: 0.1
   environment:
     AWS_PARAMETER_SPACE: theoldmonksqa15   
     AWS_LAMBDA_REGION: ap-south-1
