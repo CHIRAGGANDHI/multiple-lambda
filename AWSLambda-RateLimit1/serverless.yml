@@ -19,7 +19,9 @@ provider:
             - ssm:Get*
             - ssm:List*
           Resource:
-            - "*"    
+            - "*"   
+
+            
 functions:
   rateHandler:
     name: ${self:custom.functionName}
