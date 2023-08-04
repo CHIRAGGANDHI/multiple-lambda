@@ -21,12 +21,10 @@ provider:
             - ssm:List*
           Resource:
             - "*"
-  vpc:
-    securityGroupIds:
-      - sg-0742cbafee6df0507
-    subnetIds:
-      - subnet-0342ec5b754c63b38
-      
+  layers:
+   - arn:aws:lambda:us-east-1:177933569100:layer:AWS-Parameters-and-Secrets-Lambda-Extension:4 
+   - arn:aws:lambda:us-east-1:268173716021:layer:aws-psycopg2-layer:2
+    
 functions:
   rateHandler:
     name: ${self:custom.functionName}
