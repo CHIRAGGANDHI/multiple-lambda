@@ -1,7 +1,6 @@
 service: lambda-cron-sample-test-2
 
 frameworkVersion: '3'
-
 provider:
   name: aws
   runtime: python3.9
