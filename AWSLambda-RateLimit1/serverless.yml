@@ -26,6 +26,7 @@ provider:
       - sg-0742cbafee6df0507
     subnetIds:
       - subnet-0342ec5b754c63b38
+      
 functions:
   rateHandler:
     name: ${self:custom.functionName}
