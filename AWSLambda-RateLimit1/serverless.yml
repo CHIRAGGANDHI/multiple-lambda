@@ -1,7 +1,6 @@
+---
 service: lambda-cron-sample-test-1
-
-frameworkVersion: '3'
-
+frameworkVersion: "3"
 provider:
   name: aws
   runtime: python3.9
@@ -10,30 +9,33 @@ provider:
   memorySize: 128
   stage: dev
   environment:
-    AWS_PARAMETER_SPACE: theoldmonksqa15   
+    AWS_PARAMETER_SPACE: theoldmonksqa15
     AWS_LAMBDA_REGION: ap-south-1
   iam:
     role:
       statements:
-        - Effect: "Allow"
-          Action: 
-            - "ssm:Describe*"
-            - "ssm:Get*"
-            - "ssm:List*"
-          Resource: 
+        - Effect: Allow
+          Action:
+            - ssm:Describe*
+            - ssm:Get*
+            - ssm:List*
+          Resource:
             - "*"
-            
+  vpc:
+    securityGroupIds:
+      - sg-0742cbafee6df0507
+    subnetIds:
+      - subnet-0342ec5b754c63b38
 functions:
   rateHandler:
     name: ${self:custom.functionName}
     handler: handler.run
     description: Sample Cron Example
-
 resources:
   Resources:
     CronJobTrigger:
       Type: AWS::Events::Rule
-      Properties:        
+      Properties:
         Name: lambda-cron-sample-test-1-scheduler
         Description: Invoke Lambda Function Every 1 Minute
         ScheduleExpression: cron(*/1 * * * ? *)
@@ -48,9 +50,10 @@ resources:
         Action: lambda:InvokeFunction
         Principal: events.amazonaws.com
         SourceArn:
-          Fn::GetAtt: [CronJobTrigger, Arn]
+          Fn::GetAtt:
+            - CronJobTrigger
+            - Arn
       DependsOn:
-        - RateHandlerLambdaFunction  
-
+        - RateHandlerLambdaFunction
 custom:
   functionName: rateHandlerv1
