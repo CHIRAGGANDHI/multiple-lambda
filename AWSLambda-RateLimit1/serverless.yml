@@ -1,4 +1,3 @@
----
 service: lambda-cron-sample-test-1
 frameworkVersion: "3"
 provider:
