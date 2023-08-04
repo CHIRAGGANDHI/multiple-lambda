@@ -20,7 +20,6 @@ provider:
             - ssm:List*
           Resource:
             - "*"   
-
             
 functions:
   rateHandler:
