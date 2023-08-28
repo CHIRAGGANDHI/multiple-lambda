@@ -6,10 +6,10 @@ provider:
   region: ap-south-1
   timeout: 6
   memorySize: 128
-  stage: dev
+  stage: <+pipeline.stages.Infrastrucutre.variables.environment>
   environment:
-    AWS_PARAMETER_SPACE: theoldmonksqa15
-    AWS_LAMBDA_REGION: ap-south-1
+    AWS_PARAMETER_SPACE: <+pipeline.stages.Infrastrucutre.variables.space>
+    AWS_LAMBDA_REGION: <+pipeline.stages.Infrastrucutre.variables.aws_region>
   iam:
     role:
       statements:
@@ -19,18 +19,22 @@ provider:
             - ssm:Get*
             - ssm:List*
           Resource:
-            - "*"               
+            - "*"   
+  layers:
+   - arn:aws:lambda:ap-south-1:176022468876:layer:AWS-Parameters-and-Secrets-Lambda-Extension:10 
+   - arn:aws:lambda:ap-south-1:898466741470:layer:psycopg2-py37:1          
+            
 functions:
   rateHandler:
     name: ${self:custom.functionName}
     handler: handler.run
-    description: Sample Cron Example
+    description: A Sample Cron Job Function
 resources:
   Resources:
     CronJobTrigger:
       Type: AWS::Events::Rule
       Properties:
-        Name: lambda-cron-sample-test-1-scheduler
+        Name: <+pipeline.stages.Infrastrucutre.variables.business_divsion>-<+pipeline.stages.Infrastrucutre.variables.space>-<+pipeline.stages.Infrastrucutre.variables.environment>-rateLimit-scheduler
         Description: Invoke Lambda Function Every 1 Minute
         ScheduleExpression: cron(*/1 * * * ? *)
         State: ENABLED
@@ -49,5 +53,11 @@ resources:
             - Arn
       DependsOn:
         - RateHandlerLambdaFunction
+        
 custom:
-  functionName: rateHandlerv1
+  functionName: <+pipeline.stages.Infrastrucutre.variables.business_divsion>-<+pipeline.stages.Infrastrucutre.variables.space>-<+pipeline.stages.Infrastrucutre.variables.environment>-rateLimit
+
+package:
+  artifact: <+artifact.path>          
+plugins:
+  - serverless-deployment-bucket@latest  
