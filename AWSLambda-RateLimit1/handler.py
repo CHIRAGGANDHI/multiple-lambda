@@ -10,6 +10,7 @@ ssm_client = boto3.client("ssm", region_name=AWS_REGION)
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 def run(event, context):
 
     space = os.environ['AWS_PARAMETER_SPACE']
