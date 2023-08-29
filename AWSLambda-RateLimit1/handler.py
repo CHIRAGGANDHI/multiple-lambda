@@ -3,7 +3,6 @@ import logging
 import boto3
 import os
 
-
 AWS_REGION = os.environ['AWS_LAMBDA_REGION']
 
 ssm_client = boto3.client("ssm", region_name=AWS_REGION)
